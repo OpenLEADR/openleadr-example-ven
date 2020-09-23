@@ -1,0 +1,7 @@
+# OpenADR Client Configuration File
+ven_name: OpenLEADRTestVEN
+vtn_url: http://localhost:8080/OpenADR2/Simple/2.0b
+vtn_fingerprint: '4E:B2:5E:2E:A2:64:EA:F3:2F:7A'
+cert: cert.pem
+key: key.pem
+passphrase: openadr

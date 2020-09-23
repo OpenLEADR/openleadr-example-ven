@@ -29,5 +29,5 @@ You can configure basic settings in `config.yml`.
 You can run the client like this:
 
 ```
-./python_env/bin/python -m openleadr_ven
+./python_env/bin/python -m openleadr_ven --config config.yml
 ```
