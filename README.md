@@ -1,7 +1,7 @@
 OpenLEADR Example VTN
 =====================
 
-Bare bones BACnet VEN client example with the [BAC0] Python (https://pypi.org/project/BAC0/) package. Openleadr VEN provides a discoverable BACnet analog value to yield the demand response signal passed from the VTN to VEN. Supports a BACnet meter read to send telemetry back to the VTN server.
+Bare bones BACnet VEN client example with the [BAC0](https://pypi.org/project/BAC0/) Python package. Openleadr VEN provides a discoverable BACnet API with one analog value point to yield the demand response signal passed from the VTN to VEN. Supports a BACnet meter read to send telemetry back to the VTN server.
 
 
 ## 1. Install requirements
@@ -13,10 +13,10 @@ Bare bones BACnet VEN client example with the [BAC0] Python (https://pypi.org/pr
 
 * VEN code example reads electric meter BACnet MSTP device `12345:2 analogInput 2 presentValue`
 * One discoverable BACnet object or point named `ADR-Event-Level` would be BACnet discoverable to the buildings control system
-* App is flexible to also write directly to the control is system if more desired than providing "discoverable" BACnet objects
+* App is flexible to also write directly to the control is system if more desired than providing a "discoverable" BACnet object to represent the ADR signal
 
 
-## 2. Install requirements
+## 2. Run app
 ```shell
   $ python ven_baco.py
  ```
@@ -52,3 +52,5 @@ Adding 2022-12-13 20:10:50.097167+00:00, 94.0 to report
 The number of intervals in the report is now 1
 Report will be sent now.
  ```
+
+Discoverable BACnet objects tested with the free Comtemporary Controls [BACnet Discovery Tool (BDT)](https://www.ccontrols.com/sd/bdt.htm)
