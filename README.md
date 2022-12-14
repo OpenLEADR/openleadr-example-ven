@@ -18,7 +18,7 @@ Bare bones BACnet VEN client example with the [BAC0](https://pypi.org/project/BA
 
 ## 2. Run app
 ```shell
-  $ python ven_baco.py
+  $ python bacnet_server_ven.py
  ```
 
 Debug console yeilds BACnet meter reading values being sent back to the VTN server on 10 second increments.
