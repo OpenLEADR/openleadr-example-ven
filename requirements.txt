@@ -1,0 +1,5 @@
+pydantic
+aiohttp-basicauth
+BAC0
+pytz
+openleadr
