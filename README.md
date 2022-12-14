@@ -1,5 +1,5 @@
-OpenLEADR Example VEN
-=====================
+OpenLEADR Example BACnet Server VEN
+===================================
 
 Bare bones BACnet VEN client example with the [BAC0](https://pypi.org/project/BAC0/) Python package. Openleadr VEN provides a discoverable BACnet API with one analog value point to yield the demand response signal passed from the VTN server to VEN client inside the building. Supports a BACnet meter read to send the telemetry data back to the VTN server.
 
