@@ -5,5 +5,5 @@ Coming soon...for simple signal load shed a Flask web app running a BACnet stack
 
 
 
-![activitysnip](/snips/loadShedActivity.png)
+![activitysnip](snips/loadShedActivity.png)
 
