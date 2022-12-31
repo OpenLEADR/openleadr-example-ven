@@ -25,7 +25,7 @@ The file `config.py` contains basic configurations such as:
 * `ADDRESSES`: a dictionary of addresses to loop through to apply load shed overrides. The example below represnts MSTP network 123345 hardware address 2
 * `LOAD_SHED_GO_VAL`: represents the SIMPLE_SIGNAL value passed from the VTN to VEN to start the load shed process
 * `NORMAL_OPERATIONS`: represents the SIMPLE SINGAL value for the BACnet system of "normal" operations or no load shedding
-* `MODBUS_METER_ADDRESS`: represents the building utility meter where Modbus protocol is used to retrieve the current electrical power meter reading to report the value back to the VTN. Tested on an eGauge type(https://www.egauge.net/commercial-energy-monitor/) electric meter with the Modbus server enabled.
+* `MODBUS_METER_ADDRESS`: represents the building utility meter where Modbus protocol is used to retrieve the current electrical power meter reading to report the value back to the VTN. Tested on an [eGauge type](https://www.egauge.net/commercial-energy-monitor/) electric meter with the Modbus server enabled.
 ```
 # bacnet point details
 OBJECT_TYPE = 'analogValue'
