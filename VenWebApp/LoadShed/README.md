@@ -9,7 +9,7 @@ Code can easily be revised to include unique systems and BACnet points if desire
 
 ## Activity Diagram Overview of openLeadr VEN and web dashboard
 
-![test](/images/loadShedActivity.png)
+![test](/images/loadShedActivity.PNG)
 
 ## Installation
 
