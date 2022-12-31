@@ -9,8 +9,7 @@ Code can easily be revised to include unique systems and BACnet points if desire
 
 ## Activity Diagram Overview of openLeadr VEN and web dashboard
 
-![pic1](/images/loadShedActivity.PNG)
-
+![test](/images/loadShedActivity.png)
 
 ## Installation
 
@@ -66,7 +65,7 @@ The idea is if BACnet overrides are causing occupant comfort issues or other unw
 All overrides when the load shed is over are automatically removed from the dashboard when the load shed event has expired.
 * More enhancements can be implemented with typical Flask framework development and VUE.js such as a dashboard page representing the open ADR event, electrical meter report value, and a username/password login if desired.
 
-![pic2](/images/release_dashboard.PNG)
+![iot_res](/images/release_dashboard.PNG)
 
 See BAC0 documention for what is going under the hood of the Flask App:
 https://bac0.readthedocs.io/en/latest/
