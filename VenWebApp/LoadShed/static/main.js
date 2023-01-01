@@ -24,7 +24,6 @@ const RequestApp = {
                 headers: myHeaders,
                 body: data
             })
-
             return response
         },
         async getRequests() {
@@ -32,8 +31,8 @@ const RequestApp = {
             this.requests = await response.json()
         },
 
-        //my bad js skills attempt to put JSON in the body of the POST
-        // to the FLASK endpoint for release
+        // X buttons on dashboar hit the Flask
+        // endpoint for release individual overrides
          parseMe(requestStr) {
             const myArray = requestStr.title.split(' ');
             console.log('requestStr: ' + requestStr)
@@ -58,15 +57,7 @@ const RequestApp = {
                     release_dict.priority = myArray[i];
                 } else {}
             }
-
             release_dict.id = requestStr.id
-
-            console.log('parseMe address: ' + release_dict.address)
-            console.log('parseMe object_type: ' + release_dict.object_type)
-            console.log('parseMe object_instance: ' + release_dict.object_instance)
-            console.log('parseMe object_priority: ' + release_dict.object_priority)
-            console.log('parseMe id: ' + release_dict.id)
-
             return release_dict
 
         },

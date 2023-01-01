@@ -20,9 +20,9 @@ from pathlib import Path
 from dataclasses import dataclass
 from flask_pydantic import validate
 
+from pymodbus.client import ModbusTcpClient
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
-from pymodbus.client import ModbusTcpClient
 
 enable_default_logging()
 
@@ -189,7 +189,7 @@ class MyVen():
 
     def __init__(self):
         self.adr_start = None
-        self.building_meter = 1.23  # TBD with pyModbus
+        self.building_meter = 1.23  # default or error
         self.adr_payload_value = None
         self.adr_duration = None
         self.adr_event_ends = None
@@ -221,28 +221,22 @@ class MyVen():
     async def modbus_meter_reader(self):
 
         try:
+            
             client = ModbusTcpClient(MODBUS_METER_ADDRESS,
                                      port=MODBUS_METER_PORT)
-            client.connect()
-            result = client.read_input_registers(
-                MODBUS_INPUT_REG,
-                2,
-                unit=1
-            )
-
-            decoder = BinaryPayloadDecoder.fromRegisters(
-                result.registers,
-                byteorder=Endian.Big, wordorder=Endian.Little
-            )
-            data = float('{0:.2f}'.format(decoder.decode_32bit_float()))
+            result = client.read_input_registers(500,2,units=1)
+            print(result.registers)
+            decoder = BinaryPayloadDecoder.fromRegisters(result.registers, 
+                                                         byteorder=Endian.Big)
+            data = decoder.decode_32bit_float()
             print("MODBUS electric meter read: ", data)
-            self.building_meter = data
+            self.building_meter = round(data,3)
             client.close()
 
         except:
             print("ERROR ON MODBUS METER READ")
             client.close()
-            self.building_meter = "1.23"
+            self.building_meter = 1.23
 
         await asyncio.sleep(30)
 
@@ -288,7 +282,7 @@ class MyVen():
                   until_start_time_seconds//60)
             print("TIME UNTIL EVENT START IN HOURS: ",
                   until_start_time_seconds//60//60)
-            await asyncio.sleep(30)
+            await asyncio.sleep(15)
 
         # check if the demand response event is active or not
         elif now_utc >= ven_client.adr_start and now_utc < ven_client.adr_event_ends:
@@ -300,7 +294,7 @@ class MyVen():
                   until_end_time_seconds//60)
             print("TIME UNTIL EVENT END IN HOURS: ",
                   until_end_time_seconds//60//60)
-            await asyncio.sleep(30)
+            await asyncio.sleep(15)
 
         elif (
             now_utc > ven_client.adr_event_ends

@@ -1,10 +1,13 @@
 # Load Shed Web App
 
 This is a concept idea for a openLeadr VEN to interact with a BACnet system inside a building for electrical load shed based on the `SIMPLE_SIGNAL` open ADR signal type. 
-The ideal building is a commercial type, hospital, school, higher education, laboratory, and/or other types of buildings with operations technology (OT) that is BACnet based. 
-The concept app supports a Modbus protocol electrical main meter read for the report value back to the VTN (tested with an eGauge electric meter with Modbus server enabled) and a simple dashboard for building operators to release BACnet overrides applied when the load shed open ADR event is True.
+The ideal building for this app is a larger commercial type and not residential or multi-family. 
+Examples of larger buildings in addition to commercial could be hospital, warehouse, school, higher education, laboratory, 
+or light commercial smaller-scale business type buildings such as offices, free-standing retail, restaurants, small medical facilities, banks, etc. 
+The bottom line is the operations technology (OT) in this app demonstrates BACnet protocol based technology that operates adjustable electrical loads or equipment consuming electrical power.
+The concept app supports typical to industry a Modbus protocol electrical main meter read of a report value to send back to the VTN (tested with an eGauge electric meter with Modbus server enabled) and a simple dashboard for building operators to release BACnet overrides applied when the load shed open ADR event is True.
 The script executes in a fashion of looping through a list of BACnet addresses and applying the same BACnet point attributes/override to all devices listed in the addresses config file.
-An example of this could be an variable volume HVAC system that can consist of dozens of terminal units called VAV boxes where each VAV box would have the same BACnet point attributes to globally adjust all zone setpoints at once during the load shed event.
+An example of this could be a variable volume HVAC system that can consist of dozens of terminal units called VAV boxes where each VAV box would have the same BACnet point attributes (same OT PLC type of program running in each VAV box controller) to globally adjust all zone setpoints at once during the load shed event.
 Code can easily be revised to include unique systems and BACnet points if desired.
 
 ## Activity Diagram Overview of openLeadr VEN and web dashboard
@@ -24,7 +27,7 @@ The file `config.py` contains basic configurations such as:
 * `ADDRESSES`: a dictionary of addresses to loop through to apply load shed overrides. The example below represnts MSTP network 123345 hardware address 2
 * `LOAD_SHED_GO_VAL`: represents the SIMPLE_SIGNAL value passed from the VTN to VEN to start the load shed process
 * `NORMAL_OPERATIONS`: represents the SIMPLE SINGAL value for the BACnet system of "normal" operations or no load shedding
-* `MODBUS_METER_ADDRESS`: represents the building utility meter where Modbus protocol is used to retrieve the current electrical power meter reading to report the value back to the VTN. Tested on an [eGauge type](https://www.egauge.net/commercial-energy-monitor/) electric meter with the Modbus server enabled.
+* `MODBUS_METER_ADDRESS`: represents the building utility meter where Modbus protocol is used to retrieve the current electrical power meter reading to report the value back to the VTN. Tested on an [eGauge type](https://www.egauge.net/commercial-energy-monitor/) electric meter with the Modbus server enabled and byteorder=Endian.Big
 ```
 # bacnet point details
 OBJECT_TYPE = 'analogValue'

@@ -1,5 +1,7 @@
 BAC0
 flask-sqlalchemy
 flask
-WTForms
+Flask-Pydantic
+pymodbus
+openleadr
 
