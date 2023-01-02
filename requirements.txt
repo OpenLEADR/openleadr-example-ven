@@ -1,2 +1,6 @@
 BAC0
 openleadr
+flask-sqlalchemy
+flask
+flask_pydantic
+pymodbus

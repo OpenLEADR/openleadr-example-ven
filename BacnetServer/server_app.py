@@ -43,18 +43,31 @@ def make_bacnet_app():
         if ven_client.bacnet_payload_value != NORMAL_OPERATIONS:
             ven_client.bacnet_sig_change_success = True
             print(f'bacnet_sig_change_success = True')
+        elif (
+            ven_client.bacnet_sig_change_success == True
+            and ven_client.bacnet_sig_revert_success == True
+        ):
+            print("event_checkr RESET ALL VEN PARAMS")
+            ven_client.adr_event_go == False
+            ven_client.adr_event_stop == False
+            ven_client.bacnet_sig_change_success == False
+            ven_client.bacnet_sig_revert_success == False
+            ven_client.adr_payload_value = NORMAL_OPERATIONS
             
-        if (
+        elif (
             ven_client.bacnet_payload_value == NORMAL_OPERATIONS
             and ven_client.bacnet_sig_change_success == True
         ):
             ven_client.bacnet_sig_revert_success = True
             print('bacnet_sig_revert_success = True')
+                 
+        else:
+            pass
 
     # create discoverable BACnet object
     _new_objects = analog_value(
             name='ADR-Event-Level',
-            description='Demand response building kW setpoint',
+            description='SIMPLE SIGNAL demand response level',
             presentValue=0,is_commandable=False
         )
 
@@ -130,7 +143,7 @@ class MyVen():
             client = ModbusTcpClient(MODBUS_METER_ADDRESS,
                                      port=MODBUS_METER_PORT)
             result = client.read_input_registers(500,2,units=1)
-            print(result.registers)
+            #print(result.registers)
             decoder = BinaryPayloadDecoder.fromRegisters(result.registers, 
                                                          byteorder=Endian.Big)
             data = decoder.decode_32bit_float()
@@ -152,8 +165,8 @@ class MyVen():
             await self.stop_event()
             await self.event_status()
 
-        print("event_checkr RESET ALL VEN PARAMS")
-
+        print("event_checkr while loop FINISHED!")
+        
 
     async def handle_event(self, event):
         """
