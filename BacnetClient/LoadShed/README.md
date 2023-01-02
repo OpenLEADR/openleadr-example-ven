@@ -59,7 +59,7 @@ MODBUS_INPUT_REG = 17
 
 ```bash
 # start the app
-$ python app.py
+$ python client_app.py
 ```
 
 ## BACnet release dashbard
