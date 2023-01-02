@@ -88,17 +88,25 @@ def make_flask_app():
 
     @app.route("/")
     def index():
+        event_info = event_inf0()
         if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-            return open_adr_event_stop()
+            return event_info
         return render_template("index.html")
 
     @app.route("/adr-signal/")
     def adr_sig():
-        return {"status": "status", "info": 0}
+        return {"status": "status", "info": ven_client.event_payload_value}
 
-    def open_adr_event_stop():
-        return {"status": "status", "info": "info"}
-
+    def event_inf0():
+        return {"status": "success", 
+                "info": {
+                "adr_start": ven_client.adr_start,
+                "building_meter": ven_client.building_meter,
+                "adr_duration": ven_client.adr_duration,
+                "adr_event_ends": ven_client.adr_event_ends,
+                "event_payload_value": ven_client.event_payload_value,
+                "bacnet_payload_value": ven_client.bacnet_payload_value}}
+        
     return app
 
 
@@ -263,27 +271,43 @@ if __name__ == "__main__":
                       default=5000,
                       help="Port number to run web app")
 
-    args.add_argument("--use-modbusmeter", default=False, action="store_true")
-    args.add_argument("--no-modbusmeter", dest="use-modbusmeter",
+    args.add_argument("--use-modbus", default=False, action="store_true")
+    args.add_argument("--no-modbus", dest="use-modbus",
+                      action="store_false")
+    
+    args.add_argument("--use-bacnet", default=False, action="store_true")
+    args.add_argument("--no-bacnet", dest="use-bacnet",
+                      action="store_false")
+    
+    args.add_argument("--use-openadr", default=False, action="store_true")
+    args.add_argument("--no-openadr", dest="use-openadr",
                       action="store_false") 
     
     args = parser.parse_args()
+    print("use_bacnet: ",args.use_bacnet)
+    print("use_openadr: ",args.use_openadr)
+    print("use_modbus: ",args.use_modbus)
 
     ven_client = MyVen()
 
-    loop = asyncio.get_event_loop()
-    loop.create_task(ven_client.make_ven_client().run())
-    loop.create_task(ven_client.modbus_meter_reader())
+    if args.use_openadr or args.use_modbus:
+        loop = asyncio.get_event_loop()
+        
+        if args.use_openadr:
+            loop.create_task(ven_client.make_ven_client().run())
+        if args.use_modbus:
+            loop.create_task(ven_client.modbus_meter_reader())
 
-    t1 = threading.Thread(
-        target=lambda: loop.run_forever())
-    t1.setDaemon(True)
-    t1.start()
+        t1 = threading.Thread(
+            target=lambda: loop.run_forever())
+        t1.setDaemon(True)
+        t1.start()
     
-    t2 = threading.Thread(
-        target=lambda: make_bacnet_app())
-    t2.setDaemon(True)
-    t2.start()
+    if args.use_bacnet:
+        t2 = threading.Thread(
+            target=lambda: make_bacnet_app())
+        t2.setDaemon(True)
+        t2.start()
 
     flask_app = make_flask_app()
     flask_app.run(debug=False, host="0.0.0.0",
