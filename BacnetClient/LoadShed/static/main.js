@@ -1,4 +1,5 @@
 
+
 const { createApp } = Vue
 const RequestApp = {
     data() {
@@ -70,3 +71,4 @@ const RequestApp = {
 }
 
 createApp(RequestApp).mount('#app')
+

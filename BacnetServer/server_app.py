@@ -88,36 +88,33 @@ def make_flask_app():
 
     @app.route("/")
     def index():
-        event_info = event_inf0()
-        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-            return event_info
-        return render_template("index.html")
-
-    @app.route("/adr-signal/")
-    def adr_sig():
-        return {"status": "status", "info": ven_client.event_payload_value}
-
-    def event_inf0():
-        return {"status": "success", 
-                "info": {
+        info = {              
                 "adr_start": ven_client.adr_start,
                 "building_meter": ven_client.building_meter,
                 "adr_duration": ven_client.adr_duration,
                 "adr_event_ends": ven_client.adr_event_ends,
                 "event_payload_value": ven_client.event_payload_value,
-                "bacnet_payload_value": ven_client.bacnet_payload_value}}
-        
+                "bacnet_payload_value": ven_client.bacnet_payload_value
+            }
+                
+        return render_template("index.html", event_info=info)
+
+    @app.route("/adr-signal/")
+    def adr_sig():
+        return {"status": "status", "info": ven_client.event_payload_value}
+    
+    
     return app
 
 
 class MyVen():
 
     def __init__(self):
-        self.adr_start = None
+        self.adr_start = "Not Set"
         self.building_meter = 1.23  # default or error
-        self.adr_duration = None
-        self.adr_event_ends = None
-        self.event_payload_value = None
+        self.adr_duration = "Not Set"
+        self.adr_event_ends = "Not Set"
+        self.event_payload_value = "Not Set"
         self.bacnet_payload_value = NORMAL_OPERATIONS
         self.adr_event_go = False
         self.adr_event_stop = False
