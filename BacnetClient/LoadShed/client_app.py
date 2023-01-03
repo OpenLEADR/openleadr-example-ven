@@ -353,28 +353,34 @@ if __name__ == "__main__":
                       default=5000,
                       help="Port number to run web app")
 
-    args.add_argument("--use-localhost", default=False, action="store_true")
-    args.add_argument("--no-localhost", dest="use-localhost",
+    args.add_argument("--use-modbus", default=False, action="store_true")
+    args.add_argument("--no-modbus", dest="use-modbus",
                       action="store_false")
+    
+    args.add_argument("--use-openadr", default=False, action="store_true")
+    args.add_argument("--no-openadr", dest="use-openadr",
+                      action="store_false") 
+    
     args = parser.parse_args()
-    if args.use_localhost:
-        host_address = "localhost"
-        print("Running app on localhost only!")
-    else:
-        host_address = "0.0.0.0"
-    print("Host Address Config For Flask App Is: " + host_address)
+    print("use_openadr: ",args.use_openadr)
+    print("use_modbus: ",args.use_modbus)
 
     ven_client = MyVen()
 
-    loop = asyncio.get_event_loop()
-    loop.create_task(ven_client.make_ven_client().run())
-    loop.create_task(ven_client.modbus_meter_reader())
+    if args.use_openadr or args.use_modbus:
+        loop = asyncio.get_event_loop()
+        
+        if args.use_openadr:
+            loop.create_task(ven_client.make_ven_client().run())
+        if args.use_modbus:
+            loop.create_task(ven_client.modbus_meter_reader())
 
-    threaded_asyncio_client = threading.Thread(
-        target=lambda: loop.run_forever())
-    threaded_asyncio_client.setDaemon(True)
-    threaded_asyncio_client.start()
+        t1 = threading.Thread(
+            target=lambda: loop.run_forever())
+        t1.setDaemon(True)
+        t1.start()
 
-    app = make_flask_app()
-    app.run(debug=False, host=host_address,
+
+    flask_app = make_flask_app()
+    flask_app.run(debug=False, host="0.0.0.0",
             port=args.port_number, use_reloader=False)
