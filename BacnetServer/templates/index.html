@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 
@@ -7,16 +8,47 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Demand Response Event Info</title>
-    </head>
-    <body>
-        <p>{{event_info.adr_start}}</p>
-        <p>{{event_info.building_meter}}</p>
-        <p>{{event_info.adr_duration}}</p>
-        <p>{{event_info.adr_event_ends}}</p>
-        <p>{{event_info.event_payload_value}}</p>
-        <p>{{event_info.bacnet_payload_value}}</p>
-    </body>
+        <title></title>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Demand Response Event Info</th>
+			<th> </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Event Start</td>
+            <td>{{event_info.adr_start}}</td>
+        </tr>
+        <tr>
+            <td>Electrical Meter Reading</td>
+            <td>{{event_info.building_meter}}</td>
+        </tr>
+        <tr>
+            <td>Event Duration</td>
+            <td>{{event_info.adr_duration}}</td>
+        </tr>
+        <tr>
+            <td>Event End Time</td>
+            <td>{{event_info.adr_event_ends}}</td>
+        </tr>
+        <tr>
+            <td>Event End Time</td>
+            <td>{{event_info.adr_event_ends}}</td>
+        </tr>
+        <tr class="active-row">
+            <td>Active Demand Response Payload</td>
+            <td>{{event_info.event_payload_value}}</td>
+        </tr>
+        <tr>
+            <td>Active BACnet API Signal</td>
+            <td>{{event_info.bacnet_payload_value}}</td>
+        </tr>
+    </tbody>
+</table>
+
 </html>
 
 {% endblock %}

@@ -96,14 +96,12 @@ def make_flask_app():
                 "event_payload_value": ven_client.event_payload_value,
                 "bacnet_payload_value": ven_client.bacnet_payload_value
             }
-                
         return render_template("index.html", event_info=info)
 
     @app.route("/adr-signal/")
     def adr_sig():
         return {"status": "status", "info": ven_client.event_payload_value}
-    
-    
+
     return app
 
 
@@ -120,6 +118,7 @@ class MyVen():
         self.adr_event_stop = False
         self.bacnet_sig_change_success = False
         self.bacnet_sig_revert_success = False
+        self.last_scan = None
 
     # this is hit when an ADR event comes in
     def process_adr_event(self, event):
@@ -192,26 +191,28 @@ class MyVen():
             self.adr_event_ends - now_utc).total_seconds()
 
         if until_start_time_seconds > 0:
-            # if (now_utc - datetime.now(timezone.utc)).total_seconds() % 10 == 0:
-            print("TIME UNTIL EVENT START IN SECONDS: ",
-                  round(until_start_time_seconds))
-            print("TIME UNTIL EVENT START IN MINUTES: ",
-                  until_start_time_seconds//60)
-            print("TIME UNTIL EVENT START IN HOURS: ",
-                  until_start_time_seconds//60//60)
-            await asyncio.sleep(15)
+            if abs(now_utc - self.last_scan).total_seconds() > 15:
+                print("TIME UNTIL EVENT START IN SECONDS: ",
+                      round(until_start_time_seconds))
+                print("TIME UNTIL EVENT START IN MINUTES: ",
+                      until_start_time_seconds//60)
+                print("TIME UNTIL EVENT START IN HOURS: ",
+                      until_start_time_seconds//60//60)
+                self.last_scan = now_utc
+            await asyncio.sleep(1)
 
         # check if the demand response event is active or not
         elif now_utc >= ven_client.adr_start and now_utc < ven_client.adr_event_ends:
             self.adr_event_go = True
-            # if (now_utc - datetime.now(timezone.utc)).total_seconds() % 10 == 0:
-            print("TIME UNTIL EVENT END IN SECONDS: ",
-                  round(until_end_time_seconds))
-            print("TIME UNTIL EVENT END IN MINUTES: ",
-                  until_end_time_seconds//60)
-            print("TIME UNTIL EVENT END IN HOURS: ",
-                  until_end_time_seconds//60//60)
-            await asyncio.sleep(15)
+            if abs(now_utc - self.last_scan).total_seconds() > 15:
+                print("TIME UNTIL EVENT END IN SECONDS: ",
+                      round(until_end_time_seconds))
+                print("TIME UNTIL EVENT END IN MINUTES: ",
+                      until_end_time_seconds//60)
+                print("TIME UNTIL EVENT END IN HOURS: ",
+                      until_end_time_seconds//60//60)
+                self.last_scan = now_utc
+            await asyncio.sleep(1)
 
         elif (
             now_utc > ven_client.adr_event_ends
