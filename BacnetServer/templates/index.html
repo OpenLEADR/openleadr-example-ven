@@ -4,7 +4,6 @@
 
 {% block content %}
 
-
 <center>
 	<img src="{{url_for('static', filename='mge.jpg')}}"/>
 
@@ -21,11 +20,11 @@
 				<td>{{event_info.adr_start}}</td>
 			</tr>
 			<tr>
-				<td>Electrical Meter Reading</td>
+				<td>Electrical Meter Reading in Watts</td>
 				<td>{{event_info.building_meter}}</td>
 			</tr>
 			<tr>
-				<td>Event Duration</td>
+				<td>Event Duration (Hours:Minutes:Seconds)</td>
 				<td>{{event_info.adr_duration}}</td>
 			</tr>
 			<tr>
@@ -33,16 +32,16 @@
 				<td>{{event_info.adr_event_ends}}</td>
 			</tr>
 			<tr>
-				<td>Event End Time</td>
-				<td>{{event_info.adr_event_ends}}</td>
+				<td>Event Is Active</td>
+				<td>{{event_info.adr_event_is_active}}</td>
 			</tr>
 			<tr class="active-row">
-				<td>Active Demand Response Payload</td>
+				<td>Signal for when event is Active</td>
 				<td>{{event_info.event_payload_value}}</td>
 			</tr>
 			<tr>
-				<td>Active BACnet API Signal</td>
-				<td>{{event_info.bacnet_payload_value}}</td>
+				<td>Active BACnet API signal value</td>
+				<td>{{event_info.bacnet_api_payload_value}}</td>
 			</tr>
 		</tbody>
 	</table>
